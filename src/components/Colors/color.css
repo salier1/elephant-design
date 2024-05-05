@@ -1,0 +1,30 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.showcolor {
+  width: 200px;
+  height: 200px;
+  outline: black solid 1px;
+  line-height: 200px;
+  text-align: center;
+}
+.pink {
+  background-color: #fa74e0;
+}
+.blue {
+  background-color: #58a2ff;
+}
+.yellow {
+  background-color: #ffe856;
+}
+.red {
+  background-color: #7c1823;
+}
+.green {
+  background-color: #20a162;
+}
+.white {
+  background-color: #f9e9cd;
+}
