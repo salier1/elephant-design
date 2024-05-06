@@ -8,21 +8,30 @@
   color: $color;
   background: $background;
   border-color: $border;
+
   &:hover {
     background: $hover-background;
     border-color: $hover-border;
     color: $hover-color;
   }
+
   &:focus,
   &.focus {
     background: $hover-background;
     border-color: $hover-border;
     color: $hover-color;
   }
+
   &:disabled,
   &.disabled {
     background: $background;
     border-color: $border;
     color: $color;
   }
+}
+
+@mixin alert-style($background, $border, $color) {
+  color: $color;
+  background: $background;
+  border-color: $border;
 }

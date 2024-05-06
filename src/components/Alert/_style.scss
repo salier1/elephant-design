@@ -1,0 +1,39 @@
+$alert-colors: ("default": $primary,
+  "success": $success,
+  "warning": $warning,
+  "danger": $danger,
+);
+
+.alt {
+  position: relative;
+  padding: $alert-padding-y $alert-padding-x;
+  margin-bottom: $alert-margin-bottom;
+  border: $alert-border-width solid transparent;
+  border-radius: $alert-border-radius;
+
+  .alt-close {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translate(0, -50%);
+    padding: $alert-padding-y $alert-padding-x;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  .bold-title {
+    font-weight: $font-weight-bold;
+  }
+
+  .alt-desc {
+    font-size: $alert-description-font-size;
+    margin: $alert-description-top-margin 0 0;
+  }
+}
+
+@each $color,
+$value in $alert-colors {
+  .alt-#{$color} {
+    @include alert-style($value, darken($value, 5%), $white);
+  }
+}

@@ -1,25 +1,10 @@
 import React from "react";
-import Button, { ButtonSize, ButtonType } from "./components/Button/Button";
-
+import Alert from "./components/Alert/Alert";
 function App() {
   return (
     <div className="App">
-      <Button size={ButtonSize.Small} disabled>
-        small
-      </Button>
-
-      <Button size={ButtonSize.Large} btnType={ButtonType.Primary}>
-        haha
-      </Button>
-      <Button size={ButtonSize.Large} btnType={ButtonType.Danger} href="https://www.google.com.hk/">
-        haha
-      </Button>
-      <Button size={ButtonSize.Large} btnType={ButtonType.Default} href="https://www.google.com.hk/">
-        haha
-      </Button>
-      <Button size={ButtonSize.Large} btnType={ButtonType.Link} href="https://www.google.com.hk/">
-        haha
-      </Button>
+      <Alert title="nihao"></Alert>
+      <Alert title="nihao" description="xxxx"></Alert>
     </div>
   );
 }
