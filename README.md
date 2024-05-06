@@ -1,3 +1,3 @@
 # elephant-design
 
-omg
+![小象](./public/ele.png)
