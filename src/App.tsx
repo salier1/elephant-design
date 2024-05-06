@@ -1,10 +1,13 @@
 import React from "react";
-import Alert from "./components/Alert/Alert";
+import { Menu, Menuitem } from "./components/Menu";
 function App() {
   return (
     <div className="App">
-      <Alert title="nihao"></Alert>
-      <Alert title="nihao" description="xxxx"></Alert>
+      <Menu>
+        <Menuitem>1</Menuitem>
+        <Menuitem>2</Menuitem>
+        <Menuitem>3</Menuitem>
+      </Menu>
     </div>
   );
 }
