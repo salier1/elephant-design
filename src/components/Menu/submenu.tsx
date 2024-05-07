@@ -1,4 +1,10 @@
-import React, { FC, useContext, useState, FunctionComponentElement, ReactNode } from "react";
+import React, {
+  FC,
+  useContext,
+  useState,
+  FunctionComponentElement,
+  ReactNode,
+} from "react";
 import classNames from "classnames";
 import { MenuContext } from "./Menu";
 import { MenuItemProps } from "./Menuitem";
@@ -9,15 +15,24 @@ export interface SubMenuProps {
   /**下拉菜单选型的扩展类名 */
   className?: string;
   children?: ReactNode;
+  defaultOpen?: boolean;
 }
 
-export const SubMenu: FC<SubMenuProps> = ({ index, title, children, className }) => {
-  const [menuOpen, setMenuOpen] = useState(false);
+export const SubMenu: FC<SubMenuProps> = ({
+  index,
+  title,
+  children,
+  className,
+  defaultOpen,
+}) => {
+  const context = useContext(MenuContext);
+  const [menuOpen, setMenuOpen] = useState(defaultOpen);
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
     setMenuOpen(!menuOpen);
+    if (context.onSelect && typeof index === "string") context.onSelect(index);
   };
-  const context = useContext(MenuContext);
+
   const classes = classNames("menu-item submenu-item", className, {
     "is-active": context.index === index,
   });
@@ -48,9 +63,11 @@ export const SubMenu: FC<SubMenuProps> = ({ index, title, children, className })
     const childrenComponent = React.Children.map(children, (child, i) => {
       const childElement = child as FunctionComponentElement<MenuItemProps>;
       if (childElement.type.displayName === "MenuItem") {
-        return childElement;
+        return React.cloneElement(childElement, { index: `${index}-${i}` });
       } else {
-        console.error("Waring:SubMenu has a child which is not a MenuItem component");
+        console.error(
+          "Waring:SubMenu has a child which is not a MenuItem component"
+        );
       }
     });
     return <ul className={subclasses}>{childrenComponent}</ul>;
