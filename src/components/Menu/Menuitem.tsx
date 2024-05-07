@@ -2,7 +2,7 @@ import React, { FC, useContext, ReactNode } from "react";
 import classNames from "classnames";
 import { MenuContext } from "./Menu";
 export interface MenuItemProps {
-  index: string;
+  index?: number;
   /**选项是否被禁用 */
   disabled?: boolean;
   /**选项扩展的 className */
@@ -20,7 +20,7 @@ export const MenuItem: FC<MenuItemProps> = (props) => {
     "is-active": context.index === index,
   });
   const handleClick = () => {
-    if (context.onSelect && !disabled) context.onSelect(index);
+    if (context.onSelect && !disabled && typeof index === "number") context.onSelect(index);
   };
   return (
     <li className={classes} style={style} onClick={handleClick}>
@@ -29,4 +29,5 @@ export const MenuItem: FC<MenuItemProps> = (props) => {
   );
 };
 
+MenuItem.displayName = "MenuItem";
 export default MenuItem;

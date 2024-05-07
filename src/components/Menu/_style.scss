@@ -62,8 +62,8 @@
     }
   }
 
-  .viking-submenu {
-    //display: none;
+  .menu-submenu {
+    display: none;
     list-style: none;
     padding-left: 0;
     white-space: nowrap;
@@ -82,8 +82,8 @@
     }
   }
 
-  .viking-submenu.menu-opened {
-    //display: block;
+  .menu-submenu.menu-opened {
+    display: block;
   }
 }
 
@@ -92,7 +92,7 @@
     border-bottom: $menu-item-active-border-width solid transparent;
   }
 
-  .viking-submenu {
+  .menu-submenu {
     position: absolute;
     background: $white;
     z-index: 100;
