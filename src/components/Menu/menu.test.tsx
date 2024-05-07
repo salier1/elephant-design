@@ -1,6 +1,6 @@
 /* eslint-disable testing-library/no-render-in-setup */
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import Menu, { MenuProps } from "./Menu";
 import MenuItem, { MenuItemProps } from "./Menuitem";
 
@@ -38,7 +38,26 @@ describe("test Menu and Menuitem components", () => {
   });
   it("should render corrent Menu and Menuitem based on default props", () => {
     expect(menuElement).toBeInTheDocument();
+    expect(menuElement).toHaveClass("menu test");
+    // eslint-disable-next-line testing-library/no-node-access
+    expect(menuElement.getElementsByTagName("li").length).toEqual(3);
+    expect(activeElement).toHaveClass("menu-item is-active");
+    expect(disabledElements).toHaveClass("menu-item is-disabled");
   });
-  it("click item should change active and call the right callback", () => {});
-  it("should render vertical mode when it set to vertical", () => {});
+  it("click item should change active and call the right callback", () => {
+    const thirdItem = screen.getByText("xyz");
+    fireEvent.click(thirdItem);
+    expect(thirdItem).toHaveClass("is-active");
+    expect(activeElement).not.toHaveClass("is-active");
+    expect(testProps.onSelect).toHaveBeenCalledTimes(1);
+    fireEvent.click(disabledElements);
+    expect(disabledElements).not.toHaveClass("is-active");
+    expect(testProps.onSelect).toHaveBeenCalledTimes(1);
+  });
+  it("should render vertical mode when it set to vertical", () => {
+    cleanup();
+    render(generateMenu(testVerProps));
+    menuElement = screen.getByTestId("test-menu");
+    expect(menuElement).toHaveClass("menu-vertical");
+  });
 });
