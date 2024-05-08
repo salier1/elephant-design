@@ -63,7 +63,7 @@
   }
 
   .menu-submenu {
-    display: none;
+    // display: none;
     list-style: none;
     padding-left: 0;
     white-space: nowrap;
@@ -82,9 +82,9 @@
     }
   }
 
-  .menu-submenu.menu-opened {
-    display: block;
-  }
+  // .menu-submenu.menu-opened {
+  //   display: block;
+  // }
 }
 
 .menu-horizontal {

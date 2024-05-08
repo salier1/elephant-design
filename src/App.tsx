@@ -1,17 +1,22 @@
 import React from "react";
-import { TabItem, Tabs } from "./components/Tabs";
+import { Menuitem, Menu, Submenu } from "./components/Menu";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fas } from "@fortawesome/free-solid-svg-icons";
+library.add(fas);
+
 function App() {
+  const handleClick = (index: string) => {
+    console.log(index);
+  };
   return (
     <div className="App">
-      <Tabs>
-        <TabItem label="1">kakaka</TabItem>
-        <TabItem label="2">jajaja</TabItem>
-      </Tabs>
-
-      <Tabs type="card">
-        <TabItem label="1">kakaka</TabItem>
-        <TabItem label="2">jajaja</TabItem>
-      </Tabs>
+      <Menu mode="vertical" onSelect={(index) => handleClick(index)}>
+        <Submenu title="1">
+          <Menuitem>1</Menuitem>
+          <Menuitem>2</Menuitem>
+          <Menuitem>3</Menuitem>
+        </Submenu>
+      </Menu>
     </div>
   );
 }

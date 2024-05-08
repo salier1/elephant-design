@@ -10,11 +10,12 @@ export interface TabsProps {
   onSelect?: (selectedIndex: number) => void;
   /**Tabs的样式，两种可选，默认为 line */
   type?: "line" | "card";
+  style?: React.CSSProperties;
   children?: ReactNode;
 }
 
 export const Tabs: FC<TabsProps> = (props) => {
-  const { defaultIndex = 0, className, onSelect, children, type = "line" } = props;
+  const { defaultIndex = 0, className, onSelect, children, style, type = "line" } = props;
   const [activeIndex, setActiveIndex] = useState(defaultIndex);
   const handleClick = (e: React.MouseEvent, index: number, disabled: boolean | undefined) => {
     if (!disabled) {
@@ -56,7 +57,7 @@ export const Tabs: FC<TabsProps> = (props) => {
     });
   };
   return (
-    <div className={`tabs ${className}`}>
+    <div className={`tabs ${className}`} style={style}>
       <ul className={navClass} data-testid="test-tab">
         {renderNavLinks()}
       </ul>

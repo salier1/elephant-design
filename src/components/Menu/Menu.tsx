@@ -22,16 +22,7 @@ interface IMenuContext {
 
 export const MenuContext = createContext<IMenuContext>({});
 const Menu: React.FC<MenuProps> = (props) => {
-  const {
-    defaultIndex = "0",
-    className,
-    mode = "horizontal",
-    style,
-    onSelect,
-    children,
-    defaultOpenSub = [],
-    ...restProps
-  } = props;
+  const { defaultIndex = "0", className, mode = "horizontal", style, onSelect, children, defaultOpenSub = [], ...restProps } = props;
   const classes = classNames("menu", className, {
     "menu-vertical": mode === "vertical",
     "menu-horizontal": mode === "horizontal",
@@ -49,9 +40,7 @@ const Menu: React.FC<MenuProps> = (props) => {
   };
   const renderChildren = () => {
     return React.Children.map(children, (child, index) => {
-      const childElement = child as React.FunctionComponentElement<
-        MenuItemProps | SubMenuProps
-      >;
+      const childElement = child as React.FunctionComponentElement<MenuItemProps | SubMenuProps>;
       const { displayName } = childElement.type;
       if (displayName === "MenuItem") {
         return cloneElement(childElement, {
@@ -63,22 +52,13 @@ const Menu: React.FC<MenuProps> = (props) => {
           defaultOpen: defaultOpenSub.includes(index.toString()),
         });
       } else {
-        console.error(
-          "Waring:Menu has a child which is not a MenuItem component"
-        );
+        console.error("Waring:Menu has a child which is not a MenuItem component");
       }
     });
   };
   return (
-    <ul
-      className={classes}
-      style={style}
-      {...restProps}
-      data-testid="test-menu"
-    >
-      <MenuContext.Provider value={passedContext}>
-        {renderChildren()}
-      </MenuContext.Provider>
+    <ul className={classes} style={style} {...restProps} data-testid="test-menu">
+      <MenuContext.Provider value={passedContext}>{renderChildren()}</MenuContext.Provider>
     </ul>
   );
 };
