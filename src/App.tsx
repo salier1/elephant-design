@@ -1,9 +1,6 @@
 import React from "react";
 import { Menuitem, Menu, Submenu } from "./components/Menu";
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { fas } from "@fortawesome/free-solid-svg-icons";
-library.add(fas);
-
+import Button from "./components/Button";
 function App() {
   const handleClick = (index: string) => {
     console.log(index);
@@ -17,6 +14,7 @@ function App() {
           <Menuitem>3</Menuitem>
         </Submenu>
       </Menu>
+      <Button>nihao</Button>
     </div>
   );
 }
