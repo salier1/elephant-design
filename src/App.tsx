@@ -1,6 +1,9 @@
 import React from "react";
 import { Menuitem, Menu, Submenu } from "./components/Menu";
 import Button from "./components/Button";
+const handy = () => {
+  console.log("1");
+};
 function App() {
   const handleClick = (index: string) => {
     console.log(index);
@@ -14,7 +17,7 @@ function App() {
           <Menuitem>3</Menuitem>
         </Submenu>
       </Menu>
-      <Button>nihao</Button>
+      <Button onClick={handy}>nihao</Button>
     </div>
   );
 }

@@ -8,6 +8,9 @@ type User = {
 };
 
 interface HeaderProps {
+  /**
+   * nihao
+   */
   user?: User;
   onLogin?: () => void;
   onLogout?: () => void;
