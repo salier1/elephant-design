@@ -1,8 +1,8 @@
-  .viking-auto-complete {
+.viking-auto-complete {
   position: relative;
 }
 .viking-suggestion-list {
-  list-style:none;
+  list-style: none;
   padding-left: 0;
   white-space: nowrap;
   position: absolute;
@@ -30,6 +30,23 @@
     }
     &:hover {
       color: $menu-item-active-color !important;
+    }
+  }
+}
+
+.icon-wrapper {
+  text-align: center;
+  size: 200px;
+  .loading-icon {
+    animation: spin 2s linear infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
     }
   }
 }

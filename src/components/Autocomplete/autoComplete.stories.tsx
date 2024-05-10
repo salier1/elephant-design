@@ -62,7 +62,7 @@ const handlefetch = (query: string) => {
           ...item,
         };
       });
-      console.log(formatItems);
+      return formatItems;
     }) as Promise<DataSourceType[]>;
   return promisedItem;
 };
@@ -71,7 +71,7 @@ const renderOption = (item: DataSourceType) => {
   const githubUser = item as DataSourceType<GithubUserProps>;
   return (
     <div>
-      <h2>{githubUser.value} is very good!</h2>
+      <h2>{githubUser.value}</h2>
       <h3>{githubUser.url} wow!!</h3>
       {/* <h3>{itemWithNumber.url} wow!!</h3> */}
     </div>
