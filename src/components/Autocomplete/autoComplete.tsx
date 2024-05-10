@@ -3,41 +3,50 @@ import classNames from "classnames";
 import Input, { InputProps } from "../Input/Input";
 
 export interface AutoCompleteProps extends Omit<InputProps, "onSelect"> {
-  fetchSuggestions: (str: string) => string[];
-  onSelect?: (item: string) => void;
-  renderOption?: (item: string) => ReactElement;
+  fetchSuggestions: (str: string) => DataSourceType[] | Promise<DataSourceType[]>;
+  onSelect?: (item: DataSourceType) => void;
+  renderOption?: (item: DataSourceType) => ReactElement;
 }
-
+export interface DataSourceObject {
+  value: string;
+}
+export type DataSourceType<T = {}> = T & DataSourceObject;
 export const AutoComplete: FC<AutoCompleteProps> = (props) => {
   const { fetchSuggestions, onSelect, value, renderOption, ...restprops } = props;
   useEffect(() => {
     // console.log(suggestions);
   });
   const [inputValue, setInputValue] = useState("");
-  const [suggestions, setSuggestions] = useState<string[]>([]);
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const [suggestions, setSuggestions] = useState<DataSourceType[]>([]);
+  const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
     const value = e.target.value.trim();
     if (value) {
       const results = fetchSuggestions(value);
-      setSuggestions(results);
+      if (results instanceof Promise) {
+        console.log("promise");
+        setSuggestions(await results);
+      } else setSuggestions(results);
     } else {
       setSuggestions([]);
     }
   };
-  const handleSelect = (item: string) => {
-    setInputValue(item);
+  const handleSelect = (item: DataSourceType) => {
+    setInputValue(item.value);
     setSuggestions([]);
     if (onSelect) {
       onSelect(item);
     }
+  };
+  const renderTemplate = (item: DataSourceType) => {
+    return renderOption ? renderOption(item) : item.value;
   };
   const generateDropdown = () => {
     return (
       <ul>
         {suggestions.map((item, index) => (
           <li key={index} onClick={() => handleSelect(item)}>
-            {item}
+            {renderTemplate(item)}
           </li>
         ))}
       </ul>
