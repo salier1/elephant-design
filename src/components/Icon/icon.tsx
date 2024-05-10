@@ -21,9 +21,8 @@ export interface IconProps extends FontAwesomeIconProps {
  * import { Icon } from 'vikingship'
  * ~~~
  */
-export const Icon: FC<IconProps> = (props) => {
+export const Icon: FC<IconProps> = ({ className, theme, ...restProps }) => {
   // icon-primary
-  const { className, theme, ...restProps } = props;
   const classes = classNames("icon", className, {
     [`icon-${theme}`]: theme,
   });

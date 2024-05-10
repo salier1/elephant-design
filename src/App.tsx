@@ -1,23 +1,21 @@
-import React from "react";
-import { Menuitem, Menu, Submenu } from "./components/Menu";
-import Button from "./components/Button";
-const handy = () => {
-  console.log("1");
-};
+import React, { useEffect, useState } from "react";
+
 function App() {
-  const handleClick = (index: string) => {
-    console.log(index);
-  };
+  const [nihao, nnihao] = useState(10);
+
+  useEffect(() => {
+    nnihao(10);
+    console.log(nihao);
+  }, [nihao]);
   return (
     <div className="App">
-      <Menu mode="vertical" onSelect={(index) => handleClick(index)}>
-        <Submenu title="1">
-          <Menuitem>1</Menuitem>
-          <Menuitem>2</Menuitem>
-          <Menuitem>3</Menuitem>
-        </Submenu>
-      </Menu>
-      <Button onClick={handy}>nihao</Button>
+      {nihao}
+      <button
+        onClick={() => {
+          nnihao(nihao);
+        }}>
+        haha
+      </button>
     </div>
   );
 }

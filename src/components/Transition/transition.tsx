@@ -10,9 +10,8 @@ type TransitionProps = CSSTransitionProps & {
   children?: ReactNode;
 };
 
-const Transition: React.FC<TransitionProps> = (props) => {
+const Transition: React.FC<TransitionProps> = ({ children, classNames, animation, wrapper, unmountOnExit = true, appear = true, ...restProps }) => {
   // const nodeRef = React.useRef(null);
-  const { children, classNames, animation, wrapper, unmountOnExit = true, appear = true, ...restProps } = props;
   return (
     <CSSTransition classNames={classNames ? classNames : animation} unmountOnExit={unmountOnExit} appear={appear} {...restProps}>
       {wrapper ? <div>{children}</div> : children}

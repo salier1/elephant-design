@@ -21,8 +21,7 @@ interface IMenuContext {
 }
 
 export const MenuContext = createContext<IMenuContext>({});
-const Menu: React.FC<MenuProps> = (props) => {
-  const { defaultIndex = "0", className, mode = "horizontal", style, onSelect, children, defaultOpenSub = [], ...restProps } = props;
+const Menu: React.FC<MenuProps> = ({ defaultIndex = "0", className, mode = "horizontal", style, onSelect, children, defaultOpenSub = [], ...restProps }) => {
   const classes = classNames("menu", className, {
     "menu-vertical": mode === "vertical",
     "menu-horizontal": mode === "horizontal",

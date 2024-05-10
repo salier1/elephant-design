@@ -3,7 +3,11 @@ import classNames from "classnames";
 export type ButtonSize = "lg" | "sm" | "md";
 export type ButtonType = "primary" | "default" | "danger" | "link";
 
-interface BaseButtonProps {
+export interface BaseButtonProps {
+  /**
+   * button onClick
+   */
+  onClick?: (e: any) => void;
   /**
    * button classes
    */
@@ -20,21 +24,24 @@ interface BaseButtonProps {
    * What type should the button be?
    */
   btnType?: ButtonType;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   /**
    * what should the link redirect?
    */
   href?: string;
 }
 
-type NativeButtonProps = BaseButtonProps & React.ButtonHTMLAttributes<HTMLElement>;
-type AnchorButtonProps = BaseButtonProps & React.AnchorHTMLAttributes<HTMLElement>;
-export type ButtonProps = Partial<NativeButtonProps & AnchorButtonProps>;
+// type NativeButtonProps = BaseButtonProps & React.ButtonHTMLAttributes<HTMLElement>;
+// type AnchorButtonProps = BaseButtonProps & React.AnchorHTMLAttributes<HTMLElement>;
+// export type ButtonProps = Partial<NativeButtonProps & AnchorButtonProps>;
 /**
  * Primary UI component for user interaction
  */
-export const Button: React.FC<ButtonProps> = (props) => {
-  const { btnType = "default", size = "md", disabled = false, className, children, href, ...restProps } = props;
+export const Button: React.FC<BaseButtonProps> = ({ btnType = "default", size = "md", disabled = false, className, children, href, onClick, ...restProps }) => {
+  const handleClick = (e: any) => {
+    if (onClick) onClick(e);
+  };
+
   const classes = classNames("btn", className, {
     [`btn-${btnType}`]: btnType,
     [`btn-${size}`]: size,
@@ -48,7 +55,7 @@ export const Button: React.FC<ButtonProps> = (props) => {
     );
   } else {
     return (
-      <button className={classes} disabled={disabled} {...restProps}>
+      <button className={classes} disabled={disabled} {...restProps} onClick={(e) => handleClick(e)}>
         {children}
       </button>
     );

@@ -14,8 +14,7 @@ export interface TabsProps {
   children?: ReactNode;
 }
 
-export const Tabs: FC<TabsProps> = (props) => {
-  const { defaultIndex = 0, className, onSelect, children, style, type = "line" } = props;
+export const Tabs: FC<TabsProps> = ({ defaultIndex = 0, className, onSelect, children, style, type = "line" }) => {
   const [activeIndex, setActiveIndex] = useState(defaultIndex);
   const handleClick = (e: React.MouseEvent, index: number, disabled: boolean | undefined) => {
     if (!disabled) {
