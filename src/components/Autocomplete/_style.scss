@@ -1,11 +1,11 @@
-.viking-auto-complete {
+.auto-complete {
   position: relative;
 }
-.viking-suggestion-list {
+.suggestion-list {
   list-style: none;
   padding-left: 0;
   white-space: nowrap;
-  position: absolute;
+  position: relative;
   background: $white;
   z-index: 100;
   top: calc(100% + 8px);
@@ -18,6 +18,18 @@
     align-items: center;
     justify-content: center;
     min-height: 75px;
+    .loading-icon {
+      animation: spin 2s linear infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
   }
   .suggestion-item {
     padding: $menu-item-padding-y $menu-item-padding-x;
@@ -30,23 +42,6 @@
     }
     &:hover {
       color: $menu-item-active-color !important;
-    }
-  }
-}
-
-.icon-wrapper {
-  text-align: center;
-  size: 200px;
-  .loading-icon {
-    animation: spin 2s linear infinite;
-  }
-
-  @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
     }
   }
 }

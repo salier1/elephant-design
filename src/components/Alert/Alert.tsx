@@ -45,6 +45,7 @@ const Alert: React.FC<BaseAlertProps> = ({ type = "default", title, closeable = 
   return (
     <Transition in={!hide} timeout={300} animation="zoom-in-top">
       <div className={classes} {...restProps}>
+        <div>hahahahah</div>
         <span className={titleClasses}>{title}</span>
         {closeable && (
           <span className="alt-close" onClick={handleClose}>
