@@ -1,12 +1,4 @@
-import React, {
-  FC,
-  useState,
-  ChangeEvent,
-  KeyboardEvent,
-  ReactElement,
-  useEffect,
-  useRef,
-} from "react";
+import React, { FC, useState, ChangeEvent, KeyboardEvent, ReactElement, useEffect, useRef } from "react";
 import classNames from "classnames";
 import Input, { InputProps } from "../Input/Input";
 import Icon from "../Icon";
@@ -14,9 +6,7 @@ import useDebounce from "../../hooks/useDebounce";
 import useClickOutside from "../../hooks/useClickOutside";
 import Transition from "../Transition";
 export interface AutoCompleteProps extends Omit<InputProps, "onSelect"> {
-  fetchSuggestions: (
-    str: string
-  ) => DataSourceType[] | Promise<DataSourceType[]>;
+  fetchSuggestions: (str: string) => DataSourceType[] | Promise<DataSourceType[]>;
   onSelect?: (item: DataSourceType) => void;
   renderOption?: (item: DataSourceType) => ReactElement;
 }
@@ -25,8 +15,7 @@ export interface DataSourceObject {
 }
 export type DataSourceType<T = {}> = T & DataSourceObject;
 export const AutoComplete: FC<AutoCompleteProps> = (props) => {
-  const { fetchSuggestions, onSelect, value, renderOption, ...restprops } =
-    props;
+  const { fetchSuggestions, onSelect, value, renderOption, ...restprops } = props;
   const [inputValue, setInputValue] = useState(value as string);
   const [suggestions, setSuggestions] = useState<DataSourceType[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -63,7 +52,7 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
       setShowDropdown(false);
     }
     setSighlightIndex(-1);
-  }, [useDebounceValue]);
+  }, [fetchSuggestions, useDebounceValue]);
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
     triggerSearch.current = true;
@@ -84,7 +73,8 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
     setSighlightIndex(index);
   };
   const handleKeydown = (e: KeyboardEvent<HTMLElement>) => {
-    // console.log(e.code);
+    console.log(e.code);
+    console.log(e.key);
 
     switch (e.code) {
       case "ArrowUp":
@@ -118,8 +108,7 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
         timeout={300}
         onExited={() => {
           setSuggestions([]);
-        }}
-      >
+        }}>
         <ul className="suggestion-list">
           {loading && (
             <div className="suggstions-loading-icon">
@@ -131,11 +120,7 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
               "is-active": index === highlightIndex,
             });
             return (
-              <li
-                key={index}
-                onClick={() => handleSelect(item)}
-                className={cname}
-              >
+              <li key={index} onClick={() => handleSelect(item)} className={cname}>
                 {renderTemplate(item)}
               </li>
             );
@@ -146,15 +131,7 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
   };
   return (
     <div className="auto-complete" ref={componentRef}>
-      <div>{showDropdown ? "show" : "noshow"}</div>
-      <div>{loading ? "loading" : "noloading"}</div>
-
-      <Input
-        value={inputValue}
-        onChange={(e) => handleChange(e)}
-        onKeyDown={(e) => handleKeydown(e)}
-        {...restprops}
-      ></Input>
+      <Input value={inputValue} onChange={(e) => handleChange(e)} onKeyDown={(e) => handleKeydown(e)} {...restprops}></Input>
       {generateDropdown()}
     </div>
   );
