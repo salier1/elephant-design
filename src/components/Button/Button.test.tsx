@@ -1,7 +1,7 @@
 import React from "react";
 import { render, fireEvent, screen } from "@testing-library/react";
 import { Button, BaseButtonProps } from "./Button";
-const defaultProps = {
+const Props = {
   onClick: jest.fn(),
 };
 
@@ -17,14 +17,14 @@ const disabledProps: BaseButtonProps = {
 };
 describe("test Button component", () => {
   it("should render the correct default button", () => {
-    render(<Button {...defaultProps}>Nice</Button>);
+    render(<Button {...Props}>Nice</Button>);
     const element = screen.getByText("Nice") as HTMLButtonElement;
     expect(element).toBeInTheDocument();
     expect(element.tagName).toEqual("BUTTON");
     expect(element).toHaveClass("btn btn-default");
     expect(element.disabled).toBeFalsy();
     fireEvent.click(element);
-    expect(defaultProps.onClick).toHaveBeenCalled();
+    expect(Props.onClick).toHaveBeenCalled();
   });
   it("should render the correct component based on different props", () => {
     render(<Button {...testProps}>Nice</Button>);

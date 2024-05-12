@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import Upload from "./Upload";
+import Upload, { UploadFile } from "./Upload";
 import { action } from "@storybook/addon-actions";
 const meta = {
   component: Upload,
@@ -10,7 +10,11 @@ const meta = {
 
   // Use `fn` to spy on the onClick arg, which will appear in the actions panel once invoked: https://storybook.js.org/docs/essentials/actions#action-args
 } satisfies Meta<typeof Upload>;
-
+const defaultFileList: UploadFile[] = [
+  { uid: "1", size: 1234, name: "hello.md", status: "uploading", percent: 55 },
+  { uid: "2", size: 1234, name: "xqc.md", status: "success", percent: 55 },
+  { uid: "3", size: 1234, name: "nihao.mc", status: "error", percent: 55 },
+];
 export default meta;
 type Story = StoryObj<typeof meta>;
 // const checkFileSize = (file: File) => {
@@ -34,9 +38,10 @@ const filePromise = (file: File) => {
 export const Moren: Story = {
   name: "Alert",
   args: {
-    action: "https://jsonplaceholder.typicode.com/posts",
+    action: "https://run.mocky.io/v3/9b25b6eb-29d4-4487-9e20-7a8d1bb4071e",
     onChange: action("change"),
-    beforeUpload: filePromise,
+    // beforeUpload: filePromise,
     onSuccess: action("success"),
+    defaultFileList: defaultFileList,
   },
 };

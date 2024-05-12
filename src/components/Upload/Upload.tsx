@@ -1,6 +1,7 @@
 import React, { ChangeEvent, FC, useRef, useState } from "react";
 import axios from "axios";
 import Button from "../Button";
+import UploadList from "./UploadList";
 export type UploadFileStatus = "ready" | "uploading" | "success" | "error";
 export interface UploadFile {
   uid: string;
@@ -66,7 +67,7 @@ export const Upload: FC<UploadProps> = ({
   children,
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const [fileList, setFileList] = useState<UploadFile[]>(defaultFileList || []);
 
   const updateFileList = (updateFile: UploadFile, updateObj: Partial<UploadFile>) => {
     setFileList((prevList) => {
@@ -92,6 +93,13 @@ export const Upload: FC<UploadProps> = ({
     if (inputRef.current) {
       inputRef.current.value = "";
     }
+  };
+  const handleRemove = (file: UploadFile) => {
+    setFileList((prevList) => {
+      return prevList.filter((item) => {
+        return item.uid !== file.uid;
+      });
+    });
   };
   const post = (file: File) => {
     let _file: UploadFile = {
@@ -141,7 +149,7 @@ export const Upload: FC<UploadProps> = ({
         }
       });
   };
-  console.log(fileList);
+  console.log("filelist", fileList);
 
   const uploadFiles = (files: FileList) => {
     let postFiles = Array.from(files);
@@ -165,7 +173,12 @@ export const Upload: FC<UploadProps> = ({
       <Button btnType="primary" onClick={() => handleClick()}>
         上传
       </Button>
-      <input type="file" ref={inputRef} className="file-input" onChange={(e) => handleFilecChange(e)} />
+      <input type="file" ref={inputRef} className="file-input" onChange={(e) => handleFilecChange(e)} style={{ display: "none " }} />
+      <UploadList
+        fileList={fileList}
+        onRemove={(file) => {
+          handleRemove(file);
+        }}></UploadList>
     </div>
   );
 };
