@@ -1,6 +1,6 @@
-import React, { ChangeEvent, FC, useRef, useState } from "react";
+import React, { ChangeEvent, DragEvent, FC, useRef, useState } from "react";
 import axios from "axios";
-import Button from "../Button";
+import Dragger from "./dragger";
 import UploadList from "./UploadList";
 export type UploadFileStatus = "ready" | "uploading" | "success" | "error";
 export interface UploadFile {
@@ -22,15 +22,15 @@ export interface UploadProps {
   /**上传文件之前的钩子，参数为上传的文件，若返回 false 或者 Promise 则停止上传。 */
   beforeUpload?: (file: File) => boolean | Promise<File>;
   /**文件上传时的钩子 */
-  onProgress?: (percentage: number, file: File) => void;
+  onProgress?: (percentage: number, file: UploadFile) => void;
   /**文件上传成功时的钩子 */
-  onSuccess?: (data: any, file: File) => void;
+  onSuccess?: (data: any, file: UploadFile) => void;
   /**文件上传失败时的钩子 */
-  onError?: (err: any, file: File) => void;
+  onError?: (err: any, file: UploadFile) => void;
   /**文件状态改变时的钩子，上传成功或者失败时都会被调用	 */
-  onChange?: (file: File) => void;
+  onChange?: (file: UploadFile) => void;
   /**文件列表移除文件时的钩子 */
-  onRemove?: (file: File) => void;
+  onRemove?: (file: UploadFile) => void;
   /**设置上传的请求头部 */
   headers?: { [key: string]: any };
   /**上传的文件字段名 */
@@ -58,7 +58,7 @@ export const Upload: FC<UploadProps> = ({
   onChange,
   onRemove,
   headers,
-  name,
+  name = "file",
   data,
   withCredentials,
   accept,
@@ -95,12 +95,21 @@ export const Upload: FC<UploadProps> = ({
     }
   };
   const handleRemove = (file: UploadFile) => {
+    if (onRemove) {
+      let fileindex;
+      fileList.forEach((item, index) => {
+        if (item.uid === file.uid) fileindex = index;
+      });
+      if (fileindex) onRemove(fileList[fileindex]);
+      else console.error("cant find file");
+    }
     setFileList((prevList) => {
       return prevList.filter((item) => {
         return item.uid !== file.uid;
       });
     });
   };
+
   const post = (file: File) => {
     let _file: UploadFile = {
       uid: Date.now() + "upload-file",
@@ -110,14 +119,24 @@ export const Upload: FC<UploadProps> = ({
       percent: 0,
       raw: file,
     };
-    setFileList([_file, ...fileList]);
+    // setFileList([_file, ...fileList]);
+    setFileList((prevFilelist) => {
+      return [_file, ...prevFilelist];
+    });
     const formData = new FormData();
-    formData.append(file.name, file);
+    formData.append(name, file);
+    if (data) {
+      Object.keys(data).forEach((key) => {
+        formData.append(key, data[key]);
+      });
+    }
     axios
       .post(action, formData, {
         headers: {
+          ...headers,
           "Content-Type": "multipart/form-data",
         },
+        withCredentials,
         onUploadProgress: (e) => {
           const tt: number = e.total as number;
           let percentage = Math.round((e.loaded * 100) / tt) || 0;
@@ -125,7 +144,7 @@ export const Upload: FC<UploadProps> = ({
             updateFileList(_file, { percent: percentage, status: "uploading" });
 
             if (onProgress) {
-              onProgress(percentage, file);
+              onProgress(percentage, _file);
             }
           }
         },
@@ -133,19 +152,19 @@ export const Upload: FC<UploadProps> = ({
       .then((resp) => {
         updateFileList(_file, { status: "success", response: resp.data });
         if (onSuccess) {
-          onSuccess(resp.data, file);
+          onSuccess(resp.data, _file);
         }
         if (onChange) {
-          onChange(file);
+          onChange(_file);
         }
       })
       .catch((err) => {
         updateFileList(_file, { status: "error", error: err });
         if (onError) {
-          onError(err, file);
+          onError(err, _file);
         }
         if (onChange) {
-          onChange(file);
+          onChange(_file);
         }
       });
   };
@@ -170,10 +189,16 @@ export const Upload: FC<UploadProps> = ({
   };
   return (
     <div className="upload-component">
-      <Button btnType="primary" onClick={() => handleClick()}>
-        上传
-      </Button>
-      <input type="file" ref={inputRef} className="file-input" onChange={(e) => handleFilecChange(e)} style={{ display: "none " }} />
+      <div className="upload-input" onClick={() => handleClick()}>
+        <Dragger
+          onFile={(files) => {
+            uploadFiles(files);
+          }}>
+          {children}
+        </Dragger>
+        <input type="file" ref={inputRef} className="file-input" onChange={(e) => handleFilecChange(e)} style={{ display: "none " }} accept={accept} multiple={multiple} />
+      </div>
+
       <UploadList
         fileList={fileList}
         onRemove={(file) => {

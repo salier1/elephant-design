@@ -2,7 +2,6 @@ import React from "react";
 import classNames from "classnames";
 export type ButtonSize = "lg" | "sm" | "md";
 export type ButtonType = "primary" | "default" | "danger" | "link";
-
 export interface BaseButtonProps {
   /**
    * button onClick

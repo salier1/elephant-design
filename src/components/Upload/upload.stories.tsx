@@ -12,7 +12,7 @@ const meta = {
 } satisfies Meta<typeof Upload>;
 const defaultFileList: UploadFile[] = [
   { uid: "1", size: 1234, name: "hello.md", status: "uploading", percent: 55 },
-  { uid: "2", size: 1234, name: "xqc.md", status: "success", percent: 55 },
+  { uid: "2", size: 1234, name: "xyz.md", status: "success", percent: 55 },
   { uid: "3", size: 1234, name: "nihao.mc", status: "error", percent: 55 },
 ];
 export default meta;
@@ -43,5 +43,10 @@ export const Moren: Story = {
     // beforeUpload: filePromise,
     onSuccess: action("success"),
     defaultFileList: defaultFileList,
+    name: "hejiaweijiba",
+    data: { key: "data", hejiawei: "666" },
+    headers: { "x-Powered-by": "jiba" },
+    drag: true,
+    children: "拖拽上传",
   },
 };

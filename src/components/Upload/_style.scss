@@ -4,6 +4,11 @@
   list-style-type: none;
 }
 
+.upload-input {
+  display: inline-block;
+
+}
+
 .uploader-dragger {
   background: $gray-100;
   border: 1px dashed $gray-300;
