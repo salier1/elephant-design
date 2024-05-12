@@ -1,10 +1,10 @@
 import React from "react";
 import Upload from "./components/Upload";
-
+import Icon from "./components/Icon";
 function App() {
   return (
     <div className="App">
-      <Upload action="https://jsonplaceholder.typicode.com/posts"></Upload>
+      <Icon icon="a"></Icon>
     </div>
   );
 }
