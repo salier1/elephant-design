@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.js",
+  "unpkg": "dist/index.umd.js",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
@@ -21,13 +22,19 @@
   "scripts": {
     "start": "react-scripts start",
     "clean": "rimraf ./dist",
-    "build": "npm run clean && npm run build-ts && npm run build-css",
+    "lint": "eslint --ext js,ts,tsx src --max-warnings 5",
+    "build": "npm run clean && npm run build-es && npm run build-umd",
     "test": "react-scripts test",
+    "test:nowatch": "cross-env CI=true react-scripts test",
     "eject": "react-scripts eject",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
     "build-ts": "tsc -p tsconfig.build.json",
-    "build-css": "node-sass ./src/styles/index.scss ./dist/index.css"
+    "build-css": "node-sass ./src/styles/index.scss ./dist/index.css",
+    "prepublishOnly": "npm run test:nowatch && npm run lint && npm run build",
+    "@types/react": "^18.0.8",
+    "storybook": "BROWSER=none start-storybook -p 6006",
+    "build-storybook": "build-storybook",
+    "build-es": "rollup --config rollup/rollup.esm.config.js",
+    "build-umd": "rollup --config rollup/rollup.umd.config.js"
   },
   "eslintConfig": {
     "extends": [
@@ -62,6 +69,11 @@
     "@babel/preset-react": "^7.24.1",
     "@chromatic-com/storybook": "^1.3.4",
     "@craco/craco": "^7.1.0",
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-replace": "^5.0.5",
+    "@rollup/plugin-terser": "^0.4.4",
     "@storybook/addon-essentials": "^8.0.10",
     "@storybook/addon-interactions": "^8.0.10",
     "@storybook/addon-links": "^8.0.10",
@@ -87,9 +99,13 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-scripts": "5.0.1",
+    "rollup-plugin-exclude-dependencies-from-bundle": "^1.1.23",
+    "rollup-plugin-sass": "^1.12.22",
+    "rollup-plugin-typescript2": "^0.36.0",
     "sass": "^1.76.0",
     "storybook": "^8.0.10",
     "ts-jest": "^29.1.2",
+    "tslib": "^2.6.2",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4",
     "webpack": "^5.91.0"
