@@ -1,15 +1,33 @@
 {
   "name": "elephant-design",
   "version": "0.1.0",
-  "private": true,
-  "main": "dist/index.js",
-  "module": "dist/index.js",
+  "private": false,
+  "description": "前端组件库",
+  "keywords": [
+    "toolkit",
+    "rollup",
+    "typescript"
+  ],
+  "author": "hejiawei",
+  "main": "dist/index.es.js",
+  "module": "dist/index.es.js",
   "types": "dist/index.d.js",
   "unpkg": "dist/index.umd.js",
+  "files": [
+    "dist"
+  ],
+  "sideEffects": [
+    "dist/index.css"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/salier1/elephant-design"
+  },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@salier1/elephant-design": "^0.1.0",
     "@types/classnames": "^2.3.1",
     "async-validator": "^4.2.5",
     "axios": "^1.6.8",
