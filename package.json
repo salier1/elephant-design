@@ -1,6 +1,6 @@
 {
   "name": "@salier1/elephant-design",
-  "version": "0.5.0",
+  "version": "0.7.0",
   "private": false,
   "description": "haha",
   "keywords": [
@@ -44,7 +44,7 @@
     "build-css": "node-sass ./src/styles/index.scss ./dist/index.css",
     "prepublishOnly": "npm run test:nowatch && npm run lint && npm run build",
     "@types/react": "^18.0.8",
-    "storybook": "BROWSER=none start-storybook -p 6006",
+    "storybook": "storybook dev -p 6006",
     "build-storybook": "build-storybook",
     "build-es": "rollup --config rollup/rollup.esm.config.js",
     "build-umd": "rollup --config rollup/rollup.umd.config.js"
