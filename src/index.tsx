@@ -8,4 +8,4 @@ export { default as Progress } from "./components/Progress";
 export { default as Tabs } from "./components/Tabs";
 export { default as Upload } from "./components/Upload";
 export { default as Input } from "./components/Input";
-console.log("hello elephant-ui!");
+
